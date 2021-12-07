@@ -1,0 +1,125 @@
+React Master Class Note
+
+
+#  Styled-Components
+
+@ rca에서 moddule로 css작성하려면
+div className={} 범벅이 된다.
+
+하지만 Styled-Components를 이용하면
+
+const MyFirstBox = styled.Components(= h1 or div..)`
+    width: 100px;
+    height: 100px;
+`;
+
+{ ` 백틱 내부는 css로 작성 해야함. } 
+
+
+
+@ Prop-Types
+
+const Box = styled.div`
+    background-color: ${(props) => props.bgColor};
+    width: 100px;
+    height: 100px;
+`;
+
+return (
+    <Box bgColor="skyblue" />
+);
+
+
+
+@ Code Extend
+
+const circle = styled.div`
+    background~
+    width~
+    h~
+    border-radius: 50px;
+`;
+;  처럼 중복되는 내용을 다시 적어야할까?
+
+ -> const Circle = styled(Box)`
+    border-radius: 50px;
+ `; 
+ 처럼 작성하자.
+
+
+@ As
+<Circle as="span"> ~~~ </Circle>
+Circle은 div지만 as로 변경을 했기에
+확인해보면 span이 돤다
+
+
+@ Attribute (attrs, 속성)
+const Input = styled.input.attrs({ required: true, minLength: 10 })``;
+                          ; 요소를 추가할 수 있음
+
+
+@ Animation and State Selector
+
+import styled, {keyframes} from "styled-components";
+; 맨 위에 keyframes를 추가해준다.
+
+const Ani = keyframes`
+    from{
+        transform: rotate(0deg);
+    }
+    to{
+        transform: rotate(360deg);
+    }
+`;
+; 애니메이션을 먼저 만들어주는 모습.
+
+const Circle = styled.div`
+    background~
+    animation: ${Ani} 2s ease infinite;
+    span {
+        font-size: 36px;
+        &:hover{
+            opacity: 0;
+        }
+    ${Tarae} {
+        &:hover{
+            font-size: 50px;
+        }
+    }
+    
+`;
+ 
+<Circle>
+    <span>Hi</span>
+</Circle>
+
+; Circle컴포넨트에 애니메이션을 추가하고,
+; 자식인 span에 css를 첨가할 수 있다.
+
+; css와 달리 span:hover{}를 따로 만들 필요없이
+; span 내부에 span:hover or &:hover로 작성하자.
+
+; component이름(Tarae)을 넣어서 쓸 수 있다
+;            line = 83
+
+
+
+
+
+#  Theme
+
+모든 색상들을 가지고 있는 object이다.
+dark mode는 Theme 색상을 반전시킴으로 실행함.
+
+1. import { ThemeProvider } from "styled-components";
+2. const darkTheme ={
+     textColor: "whiteSmoke",
+     backgroundColor: "#262626",
+   };
+3. <ThemeProvider theme={darkTheme}> ~ </>
+
+const ThemeColor = styled.div`
+    fontColor: ${(p) => p.theme.textColor};
+`;
+
+
