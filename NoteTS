@@ -37,3 +37,29 @@ const Container = styled.div<ContainerProps>`
     background-color: ${(p)=> p.bgColor}
 `;
 
+
+@ Optional
+
+interface CircleProps {
+  bgColor: string; // necessary
+  borderColor?: string; // optional
+}
+
+
+@ default (초기값)
+
+function Circle({ Color, text = "Tarae" }: CircleProps) {
+  return 
+    <Box Color={Color ?? "white"}>;
+        {text}
+    </Box>
+}
+; Color처럼 ??로,
+; 혹은 argument 자리에서 text처럼
+; default값을 설정할 수 있다.
+
+
+
+
+
+
