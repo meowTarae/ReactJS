@@ -1,0 +1,39 @@
+TypeScript
+
+; const plus = (a, b) => a + b;
+; if a = 2, b = 사과,
+; plus(a, b) = ?
+; JS -> 실행 후 undefined를 출력.
+
+; 이를 방지하기 위해
+; const plus = (a:number, b:number) => a + b; 로
+; 실행 전 에러를 감지해줌
+
+interface TaraeProps {
+; interface는 object가 어떤식으로 보일지 설명해 줌.
+    bgColor: string;
+    textColor: string;
+}
+
+function Tarae({bgColor}: TaraeProps){
+    ~~
+}
+
+
+ex 1)
+const Log = (OBJ: TaraeProps) => `
+    My bgColor is ${OBJ.bgColor} !
+`;
+
+Log({bgColor:"black", textColor:"yellow"});
+Log({bgColor:"blue", textColor:"white"});
+
+; Prop-Types과 비슷하나, 
+; TS는 실행 '전' 에러를 잡아내 줌.
+
+
+ex 2)
+const Container = styled.div<ContainerProps>`
+    background-color: ${(p)=> p.bgColor}
+`;
+
