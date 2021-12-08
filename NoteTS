@@ -59,6 +59,9 @@ function Circle({ Color, text = "Tarae" }: CircleProps) {
 ; default값을 설정할 수 있다.
 
 
+@ Theme
+; TS에서는 ~~.d.ts라는 파일에 미리 선언을 해준다
+
 
 
 

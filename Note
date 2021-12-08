@@ -116,7 +116,9 @@ dark mode는 Theme 색상을 반전시킴으로 실행함.
      textColor: "whiteSmoke",
      backgroundColor: "#262626",
    };
-3. <ThemeProvider theme={darkTheme}> ~ </>
+3. <ThemeProvider theme={darkTheme}>
+    ~ 
+   </>
 
 const ThemeColor = styled.div`
     fontColor: ${(p) => p.theme.textColor};
