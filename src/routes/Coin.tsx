@@ -36,26 +36,32 @@ interface RouteParams {
 interface RouteState {
   name: string;
 }
+interface InfoData{
+
+}
+interface PriceData{
+
+}
 // </Props>
 
 function Coin() {
   const [loading, setLoading] = useState(true);
   const { coinId } = useParams<RouteParams>();
   const { state } = useLocation<RouteState>();
-  const [coinInfo, setCoinInfo] = useState({});
-  const [priceInfo, setPriceInfo] = useState({});
+  const [Info, setInfo] = useState({});
+  const [price, setPrice] = useState({});
 
   useEffect(() => {
     (async () => {
       const infoData = await (
         await fetch(`https://api.coinpaprika.com/v1/coins/${coinId}`)
       ).json();
-      setCoinInfo(infoData);
+      setInfo(infoData);
 
       const priceData = await (
         await fetch(`https://api.coinpaprika.com/v1/tickers/${coinId}`)
       ).json();
-      setPriceInfo(priceData);
+      setPrice(priceData);
     })();
   });
 
