@@ -14,7 +14,8 @@ const Header = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 10px 0;
+  margin: 30px 0 40px 0;
+  font-weight: 900;
 `;
 
 const Title = styled.h1`

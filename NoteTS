@@ -115,13 +115,39 @@ a.slice(0, 3) => [1, 2, 3]
         ).json();
     })();
 
-()()를 활용하여 const 한 번 줄일 수 있다.
+; ()()를 활용하여 const 한 번 줄일 수 있다.
 
 
 
 @ Styled with Link and a (= anchor)
 
-Link 기능이 결국 anchor랑 같은 거라서
-style에서 a{} 로 꾸미자.
+; Link 기능이 결국 anchor랑 같은 거라서
+; style에서 a{} 로 꾸미자.
 
 
+
+@ Magical registe to Interface
+
+1. console.log(~);
+2. inspect에 나오는 값을 
+   마우스 우클릭 - store object as ~ 클릭
+3. Object.keys(temp1).join()
+4. Object.values(temp1).map(v => typeof v).join()
+; 복붙하면 끝 !
+
+; type중에 object라고 있는데
+; 그건 함수기 때문에 내부에 뭔가가 있다.
+
+; 필요한 정보라면, 여기도 동일하게
+; 다 interface에 등록을 해야한다.
+
+
+
+
+
+@ useRouteMatch
+; user가 특정 URL에 있는지 여부를 확인해줌.
+
+const coinMatch = useRouteMatch("/coin");
+; 만약 true면 object를 출력하고,
+; false면 null을 출력함.
