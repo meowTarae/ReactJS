@@ -64,5 +64,29 @@ function Circle({ Color, text = "Tarae" }: CircleProps) {
 
 
 
+@ Fragment
+; 부모 관계가 아닌 다수를 리턴할 수 있음
+return (
+    <>
+        <Tarae />
+        <App />
+    </>
+);
 
 
+@ CSS Reset
+import { createGlobalStyle } from "styled-components";
+const GlobalStyle = createGlobalStyle`
+    https://github.com/zacanger/styled-reset/blob/master/src/index.ts
+    ; 위 사이트 접속 후 복사
+    * {
+      box-sizing: border-box; 
+    }
+    body {
+        font-family: 'Source Sans Pro', sans-serif;
+    }
+    a {
+        text-decoration: none;
+    }
+    ; 추가로 적어주면 좋다.
+`;
