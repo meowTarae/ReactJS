@@ -60,12 +60,18 @@ body{
 }
 a{
   text-decoration: none;
+  color: inherit;
 }
 
 `;
 
 function App() {
-  return <Router />;
+  return (
+    <>
+      <GlobalStyle />
+      <Router />
+    </>
+  );
 }
 
 export default App;

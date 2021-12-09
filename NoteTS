@@ -90,3 +90,38 @@ const GlobalStyle = createGlobalStyle`
     }
     ; 추가로 적어주면 좋다.
 `;
+
+
+@ Slice
+const a = [1, 2, 3, 4]
+
+a.slice(0, 3) => [1, 2, 3]
+; =초기값(= 0)부터 3개 출력
+
+
+
+@ Tip!
+    const getMovies = async () => {
+        const json = await (
+        await fetch("주소")
+        ).json();
+    };
+
+를 아래처럼
+
+    (async () => {
+          const json = await (
+            await fetch("주소")
+        ).json();
+    })();
+
+()()를 활용하여 const 한 번 줄일 수 있다.
+
+
+
+@ Styled with Link and a (= anchor)
+
+Link 기능이 결국 anchor랑 같은 거라서
+style에서 a{} 로 꾸미자.
+
+
