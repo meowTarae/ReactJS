@@ -91,7 +91,10 @@ const Icon = styled.div`
   width: 25px;
   height: 25px;
   font-size: 5px;
-  top: -15%;
+  top: -20%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   background-color: skyblue;
   color: white;
