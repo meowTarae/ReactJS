@@ -21,7 +21,7 @@ const Header = styled.div`
 
 const Title = styled.h1`
   font-size: 48px;
-  color: ${(p) => p.theme.accentColor};
+  color: ${(p) => p.theme.darkMode.accentColor};
 `;
 
 const Loading = styled.span`
@@ -33,8 +33,8 @@ const Loading = styled.span`
 const CoinList = styled.div``;
 
 const Coin = styled.div`
-  background-color: ${(p) => p.theme.textColor};
-  color: ${(p) => p.theme.bgColor};
+  background-color: ${(p) => p.theme.darkMode.textColor};
+  color: ${(p) => p.theme.darkMode.bgColor};
   padding: 1px;
   margin-bottom: 10px;
   border-radius: 15px;
@@ -46,7 +46,7 @@ const Coin = styled.div`
   }
   &:hover {
     a {
-      color: ${(p) => p.theme.accentColor};
+      color: ${(p) => p.theme.darkMode.accentColor};
     }
   }
 `;

@@ -55,8 +55,8 @@ table {
 }
 body{
   font-family: 'Source Sans Pro', sans-serif;
-  background-color: ${(p) => p.theme.bgColor};
-  color: ${(p) => p.theme.textColor};
+  background-color: ${(p) => p.theme.darkMode.bgColor};
+  color: ${(p) => p.theme.darkMode.textColor};
 }
 a{
   text-decoration: none;

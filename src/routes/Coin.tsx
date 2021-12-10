@@ -33,7 +33,7 @@ const Header = styled.div`
 const Title = styled.h1`
   font-size: 48px;
   padding-top: 10px;
-  color: ${(p) => p.theme.accentColor};
+  color: ${(p) => p.theme.darkMode.accentColor};
 `;
 
 const Loading = styled.span`
@@ -80,7 +80,8 @@ const Tab = styled.span<{ isActive: boolean }>`
   background-color: rgba(0, 0, 0, 0.5);
   padding: 7px 0px;
   border-radius: 10px;
-  color: ${(p) => (p.isActive ? p.theme.accentColor : p.theme.textColor)};
+  color: ${(p) =>
+    p.isActive ? p.theme.darkMode.accentColor : p.theme.darkMode.textColor};
   a {
     display: block;
   }
@@ -96,7 +97,6 @@ const Icon = styled.div`
   justify-content: center;
   align-items: center;
 
-  background-color: skyblue;
   color: white;
 `;
 
@@ -244,7 +244,7 @@ function Coin() {
               <Price />
             </Route>
             <Route path={`/${coinId}/chart`}>
-              <Chart />
+              <Chart coinId={coinId} />
             </Route>
           </Switch>
         </>
