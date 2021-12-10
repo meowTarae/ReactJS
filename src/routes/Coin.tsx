@@ -11,6 +11,7 @@ import Chart from "./Chart";
 import Price from "./Price";
 import { useQuery } from "react-query";
 import { fetchCoinInfo, fetchCoinTickers } from "../api";
+import { Helmet } from "react-helmet";
 
 // <Styled>
 const Container = styled.div`
@@ -96,16 +97,21 @@ const Icon = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  transition: color 0.1s linear;
+  padding: 6%;
+  &:hover {
+    color: ${(p) => p.theme.darkMode.accentColor};
+  }
 
   color: white;
 `;
 
 const IconToggle = styled(Icon)`
-  left: 1%;
+  left: -3%;
 `;
 
 const IconHome = styled(Icon)`
-  right: 1%;
+  right: -3%;
 `;
 
 // </Styled>
@@ -184,20 +190,28 @@ function Coin() {
   );
   const { isLoading: tickersLoading, data: tickersData } = useQuery<PriceData>(
     ["tickers", coinId],
-    () => fetchCoinTickers(coinId)
+    () => fetchCoinTickers(coinId),
+    {
+      refetchInterval: 5000,
+    }
   );
 
   const loading = infoLoading || tickersLoading;
 
   return (
     <Container>
+      <Helmet>
+        <title>
+          {state?.name ? state.name : loading ? "Loading..." : infoData?.name}
+        </title>
+      </Helmet>
       <Header>
         <Title>
           {state?.name ? state.name : loading ? "Loading..." : infoData?.name}
           <IconToggle>토글</IconToggle>
-          <IconHome>
-            <Link to={`/`}>집</Link>
-          </IconHome>
+          <Link to={`/`}>
+            <IconHome>집</IconHome>
+          </Link>
         </Title>
       </Header>
       {loading ? (
@@ -214,8 +228,8 @@ function Coin() {
               <span>${infoData?.symbol}</span>
             </OverviewItem>
             <OverviewItem>
-              <span>Open Source:</span>
-              <span>{infoData?.open_source ? "Yes" : "No"}</span>
+              <span>now Price:</span>
+              <span>$ {tickersData?.quotes.USD.price.toFixed(3)}</span>
             </OverviewItem>
           </Overview>
           <Description>{infoData?.description.slice(0, 318)}...</Description>
@@ -231,17 +245,17 @@ function Coin() {
           </Overview>
 
           <Tabs>
-            <Tab isActive={priceMatch !== null}>
-              <Link to={`/${coinId}/price`}>{infoData?.name}'s price</Link>
-            </Tab>
             <Tab isActive={chartMatch !== null}>
               <Link to={`/${coinId}/chart`}>{infoData?.name}'s chart</Link>
+            </Tab>
+            <Tab isActive={priceMatch !== null}>
+              <Link to={`/${coinId}/price`}>{infoData?.name}'s price</Link>
             </Tab>
           </Tabs>
 
           <Switch>
             <Route path={`/${coinId}/price`}>
-              <Price />
+              <Price coinId={coinId} />
             </Route>
             <Route path={`/${coinId}/chart`}>
               <Chart coinId={coinId} />
