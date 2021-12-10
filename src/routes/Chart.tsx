@@ -4,6 +4,7 @@ import ApexChart from "react-apexcharts";
 
 interface ChartProps {
   coinId: string;
+  isDark: boolean;
 }
 
 interface IData {
@@ -17,7 +18,7 @@ interface IData {
   market_cap: number;
 }
 
-function Chart({ coinId }: ChartProps) {
+function Chart({ coinId, isDark }: ChartProps) {
   const { isLoading, data } = useQuery<IData[]>(
     ["ohlcv", coinId],
     () => fetchCoinHistory(coinId),
@@ -28,7 +29,6 @@ function Chart({ coinId }: ChartProps) {
   // IData 값들은 하루 분량치이며,
   // 이게 2주치, 즉 14개나 가지고있으므로
   // IData옆에 []를 넣어줘야한다.
-  console.log(data);
 
   return (
     <div>
@@ -36,37 +36,42 @@ function Chart({ coinId }: ChartProps) {
         "Loading chart..."
       ) : (
         <ApexChart
-          type="line"
+          type="candlestick"
           series={[
             {
-              name: "Price",
-              data: data?.map((price) => Math.floor(price.close * 1181)),
+              data: [
+                {
+                  x: [data?.map((p) => p.time_open)],
+                  y: [
+                    data?.map((p) => p.open),
+                    data?.map((p) => p.high),
+                    data?.map((p) => p.low),
+                    data?.map((p) => p.close),
+                  ],
+                },
+              ],
             },
           ]}
           options={{
             theme: {
-              mode: "dark",
+              mode: isDark ? "dark" : "light",
             },
             chart: {
               height: 300,
               width: 500,
-              toolbar: {
-                show: false,
-              },
+
               background: "transparent",
             },
-            grid: { show: false },
-            stroke: {
-              curve: "smooth",
-              width: 4,
+            xaxis: {
+              type: "datetime",
             },
             yaxis: {
-              show: false,
-            },
-            xaxis: {
-              axisBorder: { show: false },
-              axisTicks: { show: false },
-              labels: { show: false },
+              tooltip: {
+                enabled: true,
+              },
+              labels: {
+                formatter: (value) => `${value.toFixed(0)}`,
+              },
             },
           }}
         />

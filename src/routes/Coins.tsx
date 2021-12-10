@@ -18,11 +18,14 @@ const Header = styled.div`
   align-items: center;
   margin: 30px 0 40px 0;
   font-weight: 900;
+
+  position: relative;
 `;
 
 const Title = styled.h1`
   font-size: 48px;
-  color: ${(p) => p.theme.darkMode.accentColor};
+  padding-top: 20px;
+  color: ${(p) => p.theme.accentColor};
 `;
 
 const Loading = styled.span`
@@ -34,8 +37,8 @@ const Loading = styled.span`
 const CoinList = styled.div``;
 
 const Coin = styled.div`
-  background-color: ${(p) => p.theme.darkMode.textColor};
-  color: ${(p) => p.theme.darkMode.bgColor};
+  background-color: ${(p) => p.theme.textColor};
+  color: ${(p) => p.theme.bgColor};
   padding: 1px;
   margin-bottom: 10px;
   border-radius: 15px;
@@ -47,7 +50,7 @@ const Coin = styled.div`
   }
   &:hover {
     a {
-      color: ${(p) => p.theme.darkMode.accentColor};
+      color: ${(p) => p.theme.accentColor};
     }
   }
 `;
@@ -56,6 +59,24 @@ const Img = styled.img`
   width: 25px;
   height: 25px;
   margin-right: 10px;
+`;
+
+const Icon = styled.div`
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  font-size: 5px;
+  top: -30%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: color 0.1s linear;
+  padding: 6%;
+  &:hover {
+    color: ${(p) => p.theme.accentColor};
+  }
+  left: 0%;
+  color: ${(p) => p.theme.textColor};
 `;
 // </styled>
 
@@ -69,9 +90,12 @@ interface ICoin {
   is_active: boolean;
   type: string;
 }
+interface ICoinsProps {
+  toggleTheme: () => void;
+}
 // </Props>
 
-function Coins() {
+function Coins({ toggleTheme }: ICoinsProps) {
   const { isLoading, data } = useQuery<ICoin[]>("allCoins", fetchCoins);
 
   return (
@@ -81,6 +105,7 @@ function Coins() {
       </Helmet>
       <Header>
         <Title>비뜨꼬인</Title>
+        <Icon onClick={toggleTheme}>toggle</Icon>
       </Header>
       {isLoading ? (
         <Loading>Loading...</Loading>

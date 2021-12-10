@@ -4,6 +4,7 @@ import ApexChart from "react-apexcharts";
 
 interface priceProps {
   coinId: string;
+  isDark: boolean;
 }
 
 interface IPriceData {
@@ -15,15 +16,79 @@ interface IPriceData {
   close: number;
   volume: number;
   market_cap: number;
-  };
 }
 
-function Price({ coinId }: priceProps) {
-  const { isLoading, data } = useQuery<IPriceData[]>(["p/m", coinId], () =>
-    fetchCoinYearHis(coinId)
+function Price({ coinId, isDark }: priceProps) {
+  const { isLoading, data } = useQuery<IPriceData[]>(
+    ["price/weekend", coinId],
+    () => fetchCoinYearHis(coinId)
   );
 
-  return <div>{isLoading ? "Loading..." : <div>hi</div>}</div>;
-}
+  console.log(data);
 
+  return (
+    <div>
+      {isLoading ? (
+        "Loading chart..."
+      ) : (
+        <ApexChart
+          type="line"
+          series={[
+            {
+              name: "Price",
+              data: data?.map((p) => p.close - p.open),
+            },
+          ]}
+          options={{
+            theme: {
+              mode: isDark ? "dark" : "light",
+            },
+            chart: {
+              height: 300,
+              width: 500,
+              toolbar: {
+                show: false,
+              },
+              background: "transparent",
+            },
+            grid: { show: false },
+            stroke: {
+              curve: "smooth",
+              width: 4,
+            },
+
+            yaxis: {
+              tickAmount: 1,
+              labels: {
+                formatter: (value) => `${value.toFixed(0)}`,
+              },
+            },
+
+            xaxis: {
+              axisBorder: { show: false },
+              axisTicks: { show: false },
+              // labels: { show:   },
+              type: "datetime",
+              categories: data?.map((price) => price.time_close),
+            },
+            title: {
+              text: "Daily variance",
+              style: { fontSize: "20px" },
+            },
+            fill: {
+              type: "gradient",
+              gradient: { gradientToColors: ["#0fbcf9"], stops: [0, 90] },
+            },
+            colors: ["#9c88ff"],
+            tooltip: {
+              y: {
+                formatter: (value) => `$${value.toFixed(2)}`,
+              },
+            },
+          }}
+        />
+      )}
+    </div>
+  );
+}
 export default Price;

@@ -34,7 +34,7 @@ const Header = styled.div`
 const Title = styled.h1`
   font-size: 48px;
   padding-top: 10px;
-  color: ${(p) => p.theme.darkMode.accentColor};
+  color: ${(p) => p.theme.accentColor};
 `;
 
 const Loading = styled.span`
@@ -46,9 +46,11 @@ const Loading = styled.span`
 const Overview = styled.div`
   display: flex;
   justify-content: space-between;
-  background-color: rgba(0, 0, 0, 0.5);
   padding: 10px 20px;
   border-radius: 10px;
+  background-color: rgba(0, 0, 0, 0.5);
+  /* background-color: ${(p) => p.theme.bgColor};
+  box-shadow: 0px 10px 20px -15px; */
 `;
 const OverviewItem = styled.div`
   display: flex;
@@ -81,8 +83,7 @@ const Tab = styled.span<{ isActive: boolean }>`
   background-color: rgba(0, 0, 0, 0.5);
   padding: 7px 0px;
   border-radius: 10px;
-  color: ${(p) =>
-    p.isActive ? p.theme.darkMode.accentColor : p.theme.darkMode.textColor};
+  color: ${(p) => (p.isActive ? p.theme.accentColor : p.theme.textColor)};
   a {
     display: block;
   }
@@ -100,10 +101,10 @@ const Icon = styled.div`
   transition: color 0.1s linear;
   padding: 6%;
   &:hover {
-    color: ${(p) => p.theme.darkMode.accentColor};
+    color: ${(p) => p.theme.accentColor};
   }
 
-  color: white;
+  color: ${(p) => p.theme.textColor};
 `;
 
 const IconToggle = styled(Icon)`
@@ -176,9 +177,13 @@ interface PriceData {
     };
   };
 }
+interface ICoinProps {
+  toggleTheme: () => void;
+  isDark: boolean;
+}
 // </Props>
 
-function Coin() {
+function Coin({ toggleTheme, isDark }: ICoinProps) {
   const { coinId } = useParams<RouteParams>();
   const { state } = useLocation<RouteState>();
   const priceMatch = useRouteMatch("/:coinId/price");
@@ -208,7 +213,7 @@ function Coin() {
       <Header>
         <Title>
           {state?.name ? state.name : loading ? "Loading..." : infoData?.name}
-          <IconToggle>토글</IconToggle>
+          <IconToggle onClick={toggleTheme}>토글</IconToggle>
           <Link to={`/`}>
             <IconHome>집</IconHome>
           </Link>
@@ -255,10 +260,10 @@ function Coin() {
 
           <Switch>
             <Route path={`/${coinId}/price`}>
-              <Price coinId={coinId} />
+              <Price isDark={isDark} coinId={coinId} />
             </Route>
             <Route path={`/${coinId}/chart`}>
-              <Chart coinId={coinId} />
+              <Chart isDark={isDark} coinId={coinId} />
             </Route>
           </Switch>
         </>
