@@ -151,3 +151,43 @@ a.slice(0, 3) => [1, 2, 3]
 const coinMatch = useRouteMatch("/coin");
 ; 만약 true면 object를 출력하고,
 ; false면 null을 출력함.
+
+
+
+
+React Query
+
+; 설치방법 
+import { QueryClient, QueryClientProvider } from "react-query";
+; index에서 앱을 wrap 하자
+const queryClient = new QueryClient();
+
+<QueryClientProvider client={QueryClient}>
+    <App />
+</QueryClientProvider>
+
+
+; 외부 데이터를 가져오기위한 fetch작업을
+; react query로 표현 방법
+
+1. 새 탭에 fetcher 함수 작성
+ex) api.ts
+
+export function fetchCoins() {
+  return fetch("주소").then((response) =>
+    response.json()
+  );
+}
+
+2. 본문 수정
+const { isLoading, data } = useQuery<ICoin[]>("allCoins", fetchCoins);
+; 로딩중인지 아닌지를 알 수 있으며
+; fecth한 자료는 data에 저장
+; allCoins는 queryKey, 내 query의 고유식별자이다.
+; fetchCoins는 fetcher 함수.
+
+
+; reactQuery는 데이터를 캐쉬에 보관하기에 데이터 유지가 가능하다
+
+
+
