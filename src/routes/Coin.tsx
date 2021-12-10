@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import {
   Switch,
   Route,
@@ -10,6 +9,8 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Chart from "./Chart";
 import Price from "./Price";
+import { useQuery } from "react-query";
+import { fetchCoinInfo, fetchCoinTickers } from "../api";
 
 // <Styled>
 const Container = styled.div`
@@ -25,10 +26,13 @@ const Header = styled.div`
   align-items: center;
   margin: 30px 0 40px 0;
   font-weight: 900;
+
+  position: relative; // 아이콘 위치 잡아주는 용도
 `;
 
 const Title = styled.h1`
   font-size: 48px;
+  padding-top: 10px;
   color: ${(p) => p.theme.accentColor};
 `;
 
@@ -81,6 +85,26 @@ const Tab = styled.span<{ isActive: boolean }>`
     display: block;
   }
 `;
+
+const Icon = styled.div`
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  font-size: 5px;
+  top: -15%;
+
+  background-color: skyblue;
+  color: white;
+`;
+
+const IconToggle = styled(Icon)`
+  left: 1%;
+`;
+
+const IconHome = styled(Icon)`
+  right: 1%;
+`;
+
 // </Styled>
 
 // <Props>
@@ -148,35 +172,29 @@ interface PriceData {
 function Coin() {
   const { coinId } = useParams<RouteParams>();
   const { state } = useLocation<RouteState>();
-  const [loading, setLoading] = useState(true);
-  const [info, setInfo] = useState<InfoData>();
-  const [price, setPrice] = useState<PriceData>();
   const priceMatch = useRouteMatch("/:coinId/price");
   const chartMatch = useRouteMatch("/:coinId/chart");
 
-  useEffect(() => {
-    (async () => {
-      const infoData = await (
-        await fetch(`https://api.coinpaprika.com/v1/coins/${coinId}`)
-      ).json();
-      const priceData = await (
-        await fetch(`https://api.coinpaprika.com/v1/tickers/${coinId}`)
-      ).json();
-      setInfo(infoData);
-      setPrice(priceData);
-      setLoading(false);
-    })();
-  }, [coinId]);
-  // coinId가 변하면 useEffect가 다시 실행 될텐데
-  // 이는 그냥 []과도 같은 결과를 도출하지만,
-  // []안에, 내가 봤을때 절대 변하지 않을 것 같은
-  // coinId 같은것을 넣어줌으로써 고성능의 hooks를 사용할 수 있음
+  const { isLoading: infoLoading, data: infoData } = useQuery<InfoData>(
+    ["info", coinId],
+    () => fetchCoinInfo(coinId)
+  );
+  const { isLoading: tickersLoading, data: tickersData } = useQuery<PriceData>(
+    ["tickers", coinId],
+    () => fetchCoinTickers(coinId)
+  );
+
+  const loading = infoLoading || tickersLoading;
 
   return (
     <Container>
       <Header>
         <Title>
-          {state?.name ? state.name : loading ? "Loading..." : info?.name}
+          {state?.name ? state.name : loading ? "Loading..." : infoData?.name}
+          <IconToggle>토글</IconToggle>
+          <IconHome>
+            <Link to={`/`}>집</Link>
+          </IconHome>
         </Title>
       </Header>
       {loading ? (
@@ -186,35 +204,35 @@ function Coin() {
           <Overview>
             <OverviewItem>
               <span>Rank:</span>
-              <span>{info?.rank}</span>
+              <span>{infoData?.rank}</span>
             </OverviewItem>
             <OverviewItem>
               <span>Symbol:</span>
-              <span>${info?.symbol}</span>
+              <span>${infoData?.symbol}</span>
             </OverviewItem>
             <OverviewItem>
               <span>Open Source:</span>
-              <span>{info?.open_source ? "Yes" : "No"}</span>
+              <span>{infoData?.open_source ? "Yes" : "No"}</span>
             </OverviewItem>
           </Overview>
-          <Description>{info?.description.slice(0, 318)}...</Description>
+          <Description>{infoData?.description.slice(0, 318)}...</Description>
           <Overview>
             <OverviewItem>
               <span>Total Suply:</span>
-              <span>{price?.total_supply}</span>
+              <span>{tickersData?.total_supply}</span>
             </OverviewItem>
             <OverviewItem>
               <span>Max Supply:</span>
-              <span>{price?.max_supply}</span>
+              <span>{tickersData?.max_supply}</span>
             </OverviewItem>
           </Overview>
 
           <Tabs>
             <Tab isActive={priceMatch !== null}>
-              <Link to={`/${coinId}/price`}>{info?.name}'s price</Link>
+              <Link to={`/${coinId}/price`}>{infoData?.name}'s price</Link>
             </Tab>
             <Tab isActive={chartMatch !== null}>
-              <Link to={`/${coinId}/chart`}>{info?.name}'s chart</Link>
+              <Link to={`/${coinId}/chart`}>{infoData?.name}'s chart</Link>
             </Tab>
           </Tabs>
 
