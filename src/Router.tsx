@@ -9,7 +9,7 @@ interface IRouterProps {
 
 function Router({ toggleTheme, isDark }: IRouterProps) {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={process.env.PUBLIC_URL}>
       <Switch>
         <Route path="/:coinId">
           <Coin isDark={isDark} toggleTheme={toggleTheme} />
