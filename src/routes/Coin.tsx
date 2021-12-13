@@ -207,7 +207,7 @@ function Coin({ toggleTheme, isDark }: ICoinProps) {
     <Container>
       <Helmet>
         <title>
-          {state?.name ? state.name : loading ? "Loading..." : infoData?.name}
+          {state?.name ? state.name : loading ? "Load..." : infoData?.name}
         </title>
       </Helmet>
       <Header>
