@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+
+  <script src="https://unpkg.com/react@17.0.2/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel">
+    function MinutesToHours() {
+      const [inputValue, setValue] = React.useState();
+      const [doFlip, setFlip] = React.useState(false);
+      const onChange = (event) => {
+        setValue(event.target.value);
+      };
+      const onFlip = () => {
+        setFlip((current) => !current);
+        reset();
+      };
+      const reset = () => setValue(inputValue * 0);
+
+      return (
+        <div>
+          <div>
+            <label htmlFor="minutes">Minutes</label>
+            <input
+              id="minutes"
+              type="number"
+              placeholder="Minutes"
+              value={doFlip ? inputValue * 60 : inputValue}
+              onChange={onChange}
+              disabled={doFlip}
+            ></input>
+          </div>
+          <div>
+            <label htmlFor="hours">Hours</label>
+            <input
+              id="hours"
+              type="number"
+              placeholder="Hours"
+              value={doFlip ? inputValue : Math.floor(inputValue / 60)}
+              onChange={onChange}
+              disabled={!doFlip}
+            ></input>
+          </div>
+          <button onClick={reset}>Reset</button>
+          <button onClick={onFlip}>Flip</button>
+        </div>
+      );
+    }
+    function KiloToMiles() {
+      const [inputValue, setValue] = React.useState();
+      const [doFlip, setFlip] = React.useState(false);
+      const onChange = (event) => {
+        setValue(event.target.value);
+      };
+      const onFlip = () => {
+        setFlip((current) => !current);
+        reset();
+      };
+      const reset = () => setValue(inputValue * 0);
+
+      return (
+        <div>
+          <div>
+            <label htmlFor="kilometers">Kilometers</label>
+            <input
+              id="kilometers"
+              type="number"
+              placeholder="Kilometers"
+              value={doFlip ? inputValue * 1.609344 : inputValue}
+              onChange={onChange}
+              disabled={doFlip}
+            ></input>
+          </div>
+          <div>
+            <label htmlFor="miles">Miles</label>
+            <input
+              id="miles"
+              type="number"
+              placeholder="Miles"
+              value={doFlip ? inputValue : inputValue / 1.609344}
+              onChange={onChange}
+              disabled={!doFlip}
+            ></input>
+          </div>
+          <button onClick={reset}>Reset</button>
+          <button onClick={onFlip}>Flip</button>
+        </div>
+      );
+    }
+
+    function Converter() {
+      const [userSelect, setSelect] = React.useState("0");
+      const onSelect = (event) => {
+        setSelect(event.target.value);
+      };
+      return (
+        <div>
+          <h1>My Converter</h1>
+          <select onChange={onSelect}>
+            <option value="0">Select Measure</option>
+            <option value="1">MinutesToHours</option>
+            <option value="2">KiloToMiles</option>
+          </select>
+          <hr />
+          {userSelect === "1" ? <MinutesToHours /> : null}
+          {userSelect === "2" ? <KiloToMiles /> : null}
+        </div>
+      );
+    }
+
+    const root = document.getElementById("root");
+    ReactDOM.render(<Converter />, root);
+  </script>
+</html>
