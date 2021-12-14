@@ -12,6 +12,12 @@ import Price from "./Price";
 import { useQuery } from "react-query";
 import { fetchCoinInfo, fetchCoinTickers } from "../api";
 import { Helmet } from "react-helmet";
+import {
+  faHome,
+  faToggleOn,
+  faToggleOff,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 // <Styled>
 const Container = styled.div`
@@ -93,7 +99,7 @@ const Icon = styled.div`
   position: absolute;
   width: 25px;
   height: 25px;
-  font-size: 5px;
+  font-size: 15px;
   top: -20%;
   display: flex;
   justify-content: center;
@@ -115,6 +121,9 @@ const IconHome = styled(Icon)`
   right: -3%;
 `;
 
+const IconToggleOn = styled.div`
+  color: ${(p) => p.theme.accentColor};
+`;
 // </Styled>
 
 // <Props>
@@ -213,9 +222,19 @@ function Coin({ toggleTheme, isDark }: ICoinProps) {
       <Header>
         <Title>
           {state?.name ? state.name : loading ? "Loading..." : infoData?.name}
-          <IconToggle onClick={toggleTheme}>토글</IconToggle>
+          <IconToggle onClick={toggleTheme}>
+            {isDark ? (
+              <FontAwesomeIcon icon={faToggleOff} />
+            ) : (
+              <IconToggleOn>
+                <FontAwesomeIcon icon={faToggleOn} />
+              </IconToggleOn>
+            )}
+          </IconToggle>
           <Link to={`/`}>
-            <IconHome>집</IconHome>
+            <IconHome>
+              <FontAwesomeIcon icon={faHome} />
+            </IconHome>
           </Link>
         </Title>
       </Header>

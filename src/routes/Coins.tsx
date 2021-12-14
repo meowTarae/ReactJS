@@ -3,6 +3,8 @@ import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { fetchCoins } from "../api";
+import { faToggleOn, faToggleOff } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 // <styled>
 const Container = styled.div`
@@ -65,8 +67,8 @@ const Icon = styled.div`
   position: absolute;
   width: 25px;
   height: 25px;
-  font-size: 5px;
-  top: -30%;
+  font-size: 15px;
+  top: -10%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -77,6 +79,10 @@ const Icon = styled.div`
   }
   left: 0%;
   color: ${(p) => p.theme.textColor};
+`;
+
+const IconToggleOn = styled.div`
+  color: ${(p) => p.theme.accentColor};
 `;
 // </styled>
 
@@ -92,10 +98,11 @@ interface ICoin {
 }
 interface ICoinsProps {
   toggleTheme: () => void;
+  isDark: boolean;
 }
 // </Props>
 
-function Coins({ toggleTheme }: ICoinsProps) {
+function Coins({ toggleTheme, isDark }: ICoinsProps) {
   const { isLoading, data } = useQuery<ICoin[]>("allCoins", fetchCoins);
 
   return (
@@ -105,7 +112,16 @@ function Coins({ toggleTheme }: ICoinsProps) {
       </Helmet>
       <Header>
         <Title>비뜨꼬인</Title>
-        <Icon onClick={toggleTheme}>toggle</Icon>
+        <Icon onClick={toggleTheme}>
+          {" "}
+          {isDark ? (
+            <FontAwesomeIcon icon={faToggleOff} />
+          ) : (
+            <IconToggleOn>
+              <FontAwesomeIcon icon={faToggleOn} />
+            </IconToggleOn>
+          )}
+        </Icon>
       </Header>
       {isLoading ? (
         <Loading>Loading...</Loading>
