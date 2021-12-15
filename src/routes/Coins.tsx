@@ -108,7 +108,7 @@ function Coins({ toggleTheme, isDark }: ICoinsProps) {
   return (
     <Container>
       <Helmet>
-        <title>비뜨꼬인</title>
+        <title>Coin Tracker</title>
       </Helmet>
       <Header>
         <Title>비뜨꼬인</Title>
