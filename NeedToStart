@@ -1,0 +1,26 @@
+※ 모두 c에 다운받는게 정신건강에 좋음
+
+-기본
+vsc
+
+git
+github-desktop
+nodeJS
+
+
+-ReactJS
+npm i react-router
+npm i react-router-dom@5.3.0
+npm i styled-components
+npm i --save-dev @types/styled-components
+npm install --save typescript @types/node @types/react @types/react-dom @types/jest
+npm install --save react-apexcharts apexcharts
+npm i --save-dev @types/react-helmet
+
+
+
+  icon
+npm i @fortawesome/fontawesome-svg-core
+npm i --save-dev @types/fortawesome__free-solid-svg-icons  (solid / regular / brands)
+npm i @fortawesome/react-fontawesome
+npm i -S @fortawesome/fontawesome-svg-core @fortawesome/react-fontawesome
