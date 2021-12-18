@@ -17,9 +17,6 @@ npm install --save typescript @types/node @types/react @types/react-dom @types/j
 npm install --save react-apexcharts apexcharts
 npm i --save-dev @types/react-helmet
 
-
-
-  icon
 npm i @fortawesome/fontawesome-svg-core
 npm i --save-dev @types/fortawesome__free-solid-svg-icons  (solid / regular / brands)
 npm i @fortawesome/react-fontawesome
